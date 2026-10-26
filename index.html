@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>T3-D3 · דירה 138</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap">
+<script>
+  // Module map + resource lookup: files are published next to this page.
+  // Device: phone → compact touch layout, tablet → large layout with touch walking, computer → full layout.
+  (function () {
+    function detect() {
+      var o = null; try { o = localStorage.getItem('t3d3_device'); } catch (e) {}
+      var touch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 1;
+      var uaMobile = (navigator.userAgentData && navigator.userAgentData.mobile) || /Android.+Mobile|iPhone|iPod|Windows Phone|Mobile Safari/i.test(navigator.userAgent);
+      var short = Math.min(screen.width, screen.height), narrow = innerWidth < 700;
+      var auto = (uaMobile || (touch && short < 600) || narrow) ? 'mobile' : (touch ? 'tablet' : 'desktop');
+      var r = document.documentElement;
+      r.dataset.deviceAuto = auto; r.dataset.device = (o === 'desktop' || o === 'mobile') ? o : auto; r.dataset.touch = touch ? '1' : '0';
+    }
+    window.__detectDevice = detect; detect();
+  })();
+  (function () {
+    var PATHS = {"three-core":"vendor/three.core.js","three":"vendor/three.module.js","orbit":"vendor/OrbitControls.js","objexp":"vendor/OBJExporter.js","gltfexp":"vendor/GLTFExporter.js","add-postprocessing-EffectComposer-js":"vendor/addons/postprocessing/EffectComposer.js","add-postprocessing-RenderPass-js":"vendor/addons/postprocessing/RenderPass.js","add-postprocessing-OutputPass-js":"vendor/addons/postprocessing/OutputPass.js","add-postprocessing-GTAOPass-js":"vendor/addons/postprocessing/GTAOPass.js","add-postprocessing-Pass-js":"vendor/addons/postprocessing/Pass.js","add-loaders-HDRLoader-js":"vendor/addons/loaders/HDRLoader.js","add-shaders-CopyShader-js":"vendor/addons/shaders/CopyShader.js","add-postprocessing-ShaderPass-js":"vendor/addons/postprocessing/ShaderPass.js","add-postprocessing-MaskPass-js":"vendor/addons/postprocessing/MaskPass.js","add-shaders-OutputShader-js":"vendor/addons/shaders/OutputShader.js","add-shaders-GTAOShader-js":"vendor/addons/shaders/GTAOShader.js","add-shaders-PoissonDenoiseShader-js":"vendor/addons/shaders/PoissonDenoiseShader.js","add-math-SimplexNoise-js":"vendor/addons/math/SimplexNoise.js","bvh":"vendor/three-mesh-bvh.js","pathtracer":"vendor/three-gpu-pathtracer.js","app-model":"d3-model.js","app-walk":"d3-walk.js","app-render":"d3-render.js","app-parking":"d3-parking.js","data-parking":"data/parking_pt.json","data-unit":"data/unit_pt.json","data-building":"data/building_pt.json","sky":"textures/s/sky_1k_hdr.json","tx-laminate_floor_02_diffuse":"textures/s/laminate_floor_02_diffuse.jpg","tx-laminate_floor_02_nor_gl":"textures/s/laminate_floor_02_nor_gl.jpg","tx-laminate_floor_02_rough":"textures/s/laminate_floor_02_rough.jpg","tx-oak_veneer_01_diffuse":"textures/s/oak_veneer_01_diffuse.jpg","tx-oak_veneer_01_nor_gl":"textures/s/oak_veneer_01_nor_gl.jpg","tx-oak_veneer_01_rough":"textures/s/oak_veneer_01_rough.jpg","tx-curly_teddy_natural_diffuse":"textures/s/curly_teddy_natural_diffuse.jpg","tx-curly_teddy_natural_nor_gl":"textures/s/curly_teddy_natural_nor_gl.jpg","tx-curly_teddy_natural_rough":"textures/s/curly_teddy_natural_rough.jpg","tx-rough_linen_nor_gl":"textures/s/rough_linen_nor_gl.jpg","tx-rough_linen_rough":"textures/s/rough_linen_rough.jpg","tx-beige_wall_001_nor_gl":"textures/s/beige_wall_001_nor_gl.jpg"};
+    var SPECS = {"three-core":"three-core","three":"three","three/addons/controls/OrbitControls.js":"orbit","three/addons/exporters/OBJExporter.js":"objexp","three/addons/exporters/GLTFExporter.js":"gltfexp","three/addons/postprocessing/EffectComposer.js":"add-postprocessing-EffectComposer-js","three/addons/postprocessing/RenderPass.js":"add-postprocessing-RenderPass-js","three/addons/postprocessing/OutputPass.js":"add-postprocessing-OutputPass-js","three/addons/postprocessing/GTAOPass.js":"add-postprocessing-GTAOPass-js","three/addons/postprocessing/Pass.js":"add-postprocessing-Pass-js","three/addons/loaders/HDRLoader.js":"add-loaders-HDRLoader-js","three/addons/shaders/CopyShader.js":"add-shaders-CopyShader-js","three/addons/postprocessing/ShaderPass.js":"add-postprocessing-ShaderPass-js","three/addons/postprocessing/MaskPass.js":"add-postprocessing-MaskPass-js","three/addons/shaders/OutputShader.js":"add-shaders-OutputShader-js","three/addons/shaders/GTAOShader.js":"add-shaders-GTAOShader-js","three/addons/shaders/PoissonDenoiseShader.js":"add-shaders-PoissonDenoiseShader-js","three/addons/math/SimplexNoise.js":"add-math-SimplexNoise-js","three-mesh-bvh":"bvh","three-gpu-pathtracer":"pathtracer","app-model":"app-model","app-walk":"app-walk","app-render":"app-render","app-parking":"app-parking"};
+    var R = window.__resources || {};
+    var u = function (id) { return R[id] || new URL(PATHS[id], document.baseURI).href; };
+    window.__res = u;
+    var map = { imports: {} };
+    for (var sp in SPECS) map.imports[sp] = u(SPECS[sp]);
+    var s = document.createElement('script'); s.type = 'importmap'; s.textContent = JSON.stringify(map);
+    document.currentScript.after(s);
+  })();
+</script>
+<style>
+  /* Layout: full-bleed 3D stage; a control rail on the reading side (right, RTL) and a sale-spec ledger on the other side. */
+  :root {
+    --bg: #eceae5; --panel: rgba(250, 249, 246, 0.95); --ink: #1d1c19; --ink-2: #4b4943; --ink-3: #7c786f;
+    --line: rgba(29, 28, 25, 0.12); --chip: rgba(29, 28, 25, 0.06); --chip-hover: rgba(29, 28, 25, 0.11);
+    --accent: oklch(0.64 0.15 45); --accent-ink: #ffffff; --accent-soft: oklch(0.64 0.15 45 / 0.14);
+    --stage-cut: #ebe9e3; --stage-walk: #e7ecef; --stage-bld: #e5e8e9;
+    --font-ui: "IBM Plex Sans Hebrew", "Assistant", "Arial Hebrew", Arial, sans-serif;
+    --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --r: 10px;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #1b1c1d; --panel: rgba(32, 33, 34, 0.94); --ink: #ecebe7; --ink-2: #c3c0b8; --ink-3: #8f8c84;
+    --line: rgba(236, 235, 231, 0.12); --chip: rgba(236, 235, 231, 0.07); --chip-hover: rgba(236, 235, 231, 0.13);
+    --accent: oklch(0.7 0.15 48); --accent-ink: #1b1c1d; --accent-soft: oklch(0.7 0.15 48 / 0.18);
+    --stage-cut: #262728; --stage-walk: #2a2f33; --stage-bld: #24282a; color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --bg: #1b1c1d; --panel: rgba(32, 33, 34, 0.94); --ink: #ecebe7; --ink-2: #c3c0b8; --ink-3: #8f8c84;
+    --line: rgba(236, 235, 231, 0.12); --chip: rgba(236, 235, 231, 0.07); --chip-hover: rgba(236, 235, 231, 0.13);
+    --accent: oklch(0.7 0.15 48); --accent-ink: #1b1c1d; --accent-soft: oklch(0.7 0.15 48 / 0.18);
+    --stage-cut: #262728; --stage-walk: #2a2f33; --stage-bld: #24282a; color-scheme: dark; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 14px; overflow: hidden; }
+  button { font: inherit; color: inherit; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  three-d-stage:not(:defined) { visibility: hidden; }
+  three-d-stage { position: fixed; inset: 0; width: 100vw; height: 100%; }
+  .num { font-family: var(--font-data); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+
+  /* control rail */
+  .rail { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); width: 300px; max-width: calc(100vw - 28px); max-height: calc(100% - 28px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); overflow: auto; box-sizing: border-box; padding: 16px 16px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 14px; z-index: 3; direction: rtl; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.06em; color: var(--ink-3); }
+  h1 { margin: 3px 0 0; font-size: 21px; line-height: 1.2; font-weight: 700; text-wrap: balance; }
+  h1 .num { font-weight: 500; font-size: 0.82em; color: var(--ink-2); margin-inline-start: 4px; }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+  .fact { background: var(--chip); border-radius: 8px; padding: 7px 8px 6px; min-width: 0; }
+  .fact b { display: block; font-family: var(--font-data); font-weight: 500; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .fact span { display: block; font-size: 10.5px; color: var(--ink-3); margin-top: 1px; }
+  .sub { font-size: 12px; color: var(--ink-2); line-height: 1.5; margin-top: 8px; text-wrap: pretty; }
+  .label { font-size: 11px; color: var(--ink-3); letter-spacing: 0.04em; margin-bottom: 6px; }
+  .views { display: flex; flex-direction: column; gap: 3px; }
+  .views button { appearance: none; border: 0; background: transparent; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 8px; font-size: 13.5px; text-align: right; }
+  .views button span { font-size: 11px; color: var(--ink-3); }
+  .views button:hover { background: var(--chip); }
+  .views button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .views button[aria-pressed="true"] span { color: var(--bg); opacity: 0.7; }
+  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
+  .seg button { appearance: none; border: 0; cursor: pointer; padding: 6px 9px; border-radius: 6px; font-size: 12px; background: var(--chip); }
+  .seg button:hover { background: var(--chip-hover); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  .opt { display: flex; flex-direction: column; gap: 10px; }
+  .opt .row { display: flex; flex-direction: column; gap: 5px; }
+  .opt .row > div:first-child { font-size: 12px; color: var(--ink-2); }
+  .floors { display: none; flex-direction: column; gap: 6px; }
+  .floors.on { display: flex; }
+  .chips { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; direction: ltr; }
+  .chips button { appearance: none; border: 0; cursor: pointer; text-align: center; padding: 5px 0; border-radius: 5px; font-size: 11.5px; background: var(--chip); font-family: var(--font-data); }
+  .chips button:hover { background: var(--chip-hover); }
+  .chips button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  .chips button.own { box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .unitline { font-size: 12.5px; }
+  .note { font-size: 11px; line-height: 1.55; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 11px; text-wrap: pretty; }
+  .actions { display: flex; flex-wrap: wrap; gap: 6px; }
+  .btn { appearance: none; border: 1px solid var(--line); cursor: pointer; background: transparent; border-radius: 8px; padding: 7px 10px; font-size: 12px; }
+  .btn:hover { background: var(--chip); }
+  .btn.primary { background: var(--accent); border-color: transparent; color: var(--accent-ink); font-weight: 600; }
+  .btn[disabled] { opacity: 0.45; pointer-events: none; }
+  .toast { font-size: 11.5px; color: var(--ink-2); min-height: 1em; }
+  body.walking .rail .sub, body.walking .rail .note, body.walking .rail .facts { display: none; }
+
+  /* room labels in the cutaway */
+  .tags { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+  .tag { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; appearance: none; cursor: pointer; border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 3px 9px 3px; font-size: 11.5px; white-space: nowrap; direction: rtl; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+  .ptag { pointer-events: none; font-weight: 600; }
+  .ptag.own { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  .tag:hover, .tag[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  .tag .num { font-size: 10px; opacity: 0.7; margin-inline-start: 4px; }
+
+  /* sale-spec ledger */
+  .ledger { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); left: max(14px, env(safe-area-inset-left, 0px)); width: 380px; max-width: calc(100vw - 28px); max-height: calc(100% - 28px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); box-sizing: border-box; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; backdrop-filter: blur(10px); z-index: 4; direction: rtl; display: flex; flex-direction: column; overflow: hidden; }
+  .ledger[hidden] { display: none !important; }
+  .lhead { padding: 14px 16px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .lhead h2 { margin: 0; font-size: 16px; font-weight: 700; }
+  .lhead p { margin: 2px 0 0; font-size: 11.5px; color: var(--ink-3); }
+  .x { appearance: none; border: 0; background: var(--chip); border-radius: 7px; width: 28px; height: 28px; cursor: pointer; font-size: 16px; line-height: 1; flex: none; }
+  .tabs { display: flex; gap: 2px; padding: 10px 12px 0; border-bottom: 1px solid var(--line); overflow-x: auto; }
+  .tabs button { appearance: none; border: 0; background: transparent; cursor: pointer; padding: 8px 10px 9px; font-size: 12.5px; color: var(--ink-2); border-bottom: 2px solid transparent; white-space: nowrap; }
+  .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+  .lbody { overflow: auto; padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  .roompick { display: flex; flex-wrap: wrap; gap: 4px; }
+  .roompick button { appearance: none; border: 0; cursor: pointer; padding: 5px 8px; border-radius: 6px; font-size: 11.5px; background: var(--chip); }
+  .roompick button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .rtitle { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .rtitle h3 { margin: 0; font-size: 15px; }
+  .rtitle .num { font-size: 12px; color: var(--ink-3); }
+  dl.spec { margin: 0; display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 0; border-top: 1px solid var(--line); }
+  dl.spec dt, dl.spec dd { padding: 7px 0; border-bottom: 1px solid var(--line); margin: 0; font-size: 12.5px; line-height: 1.5; }
+  dl.spec dt { color: var(--ink-3); padding-inline-end: 8px; }
+  dl.spec dd { color: var(--ink); text-wrap: pretty; min-width: 0; }
+  .elec { display: flex; flex-wrap: wrap; gap: 4px; }
+  .elec span { background: var(--chip); border-radius: 5px; padding: 2px 7px; font-size: 11.5px; }
+  .elec b { font-family: var(--font-data); font-weight: 500; margin-inline-start: 3px; }
+  .ref { font-size: 10.5px; color: var(--ink-3); }
+  .sec h4 { margin: 0 0 4px; font-size: 13px; }
+  table.cr { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.cr th, table.cr td { text-align: right; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.cr th { font-weight: 500; color: var(--ink-3); font-size: 11px; }
+  table.cr td.n { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: left; }
+  .wrapx { overflow-x: auto; }
+
+  /* walk mode */
+  .walkcard { position: fixed; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); left: max(14px, env(safe-area-inset-left, 0px)); width: 300px; max-width: calc(100vw - 28px); box-sizing: border-box; padding: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; backdrop-filter: blur(10px); display: none; z-index: 3; direction: rtl; }
+  body.walking .walkcard { display: flex; flex-direction: column; gap: 8px; }
+  .rooms { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; }
+  .rooms button { appearance: none; border: 0; cursor: pointer; padding: 6px 0; border-radius: 6px; font-size: 11px; background: var(--chip); }
+  .rooms button:hover { background: var(--chip-hover); }
+  .rooms button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  #minimap { width: 100%; display: block; cursor: crosshair; border-radius: 6px; background: var(--chip); direction: ltr; }
+  .here { font-size: 12px; color: var(--ink-2); display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+  .here b { color: var(--ink); }
+  .linkbtn { appearance: none; border: 0; background: none; color: var(--accent); cursor: pointer; padding: 0; font-size: 12px; text-decoration: underline; text-underline-offset: 2px; }
+  .keys { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); max-width: min(520px, calc(100vw - 700px)); padding: 9px 13px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); font-size: 12px; line-height: 1.55; color: var(--ink-2); display: none; z-index: 2; direction: rtl; }
+  body.walking .keys { display: block; }
+  body.ledger-open .keys, body.ledger-open .walkcard { display: none !important; }
+  @media (max-width: 1100px) { .keys { display: none !important; } }
+  .keys b { color: var(--ink); font-weight: 600; }
+  .rstatus { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); appearance: none; border: 0; padding: 9px 15px; border-radius: 999px; background: rgba(29, 28, 25, 0.84); color: #f4f2ec; font-size: 12px; z-index: 3; cursor: default; direction: rtl; }
+  .rstatus[data-mode="ready"] { background: var(--accent); color: var(--accent-ink); cursor: pointer; font-weight: 600; }
+  .rstatus[data-mode="off"] { display: none; }
+  .loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--ink-3); pointer-events: none; direction: rtl; }
+  .openspec { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); left: max(14px, env(safe-area-inset-left, 0px)); z-index: 3; }
+  body.ledger-open .openspec { display: none; }
+
+.pane { position: fixed; inset: 0; z-index: 6; display: flex; flex-direction: column; background: var(--bg); direction: rtl; }
+  .panebar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; padding-block: calc(10px + env(safe-area-inset-top, 0px)) 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); border-bottom: 1px solid var(--line); background: var(--panel); }
+  .panetitle { font-size: 14px; min-width: 0; } .panetitle span { color: var(--ink-3); font-size: 12px; margin-inline-start: 6px; }
+  .panetabs { display: flex; flex-wrap: wrap; gap: 4px; }
+  .panetabs button { appearance: none; border: 0; cursor: pointer; padding: 6px 11px; border-radius: 7px; font-size: 12.5px; background: var(--chip); }
+  .panetabs button:hover { background: var(--chip-hover); }
+  .panetabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .pane iframe { flex: 1 1 auto; width: 100%; border: 0; min-height: 0; background: var(--bg); }
+  .panemsg { position: absolute; inset: 60px 0 0; display: flex; align-items: center; justify-content: center; color: var(--ink-3); font-size: 13px; pointer-events: none; }
+  .panemsg[hidden] { display: none; }
+  body.paneopen .rail, body.paneopen .openspec, body.paneopen .tags, body.paneopen .rstatus, body.paneopen .walkcard, body.paneopen .keys { display: none !important; }
+  :root[data-device="mobile"] .rail { width: auto; left: max(10px, env(safe-area-inset-left, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); max-height: 46%; padding: 12px; gap: 10px; }
+  :root[data-device="mobile"] .rail .sub, :root[data-device="mobile"] .rail .note { display: none; }
+  :root[data-device="mobile"] .ledger { top: auto; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%; max-height: 62%; border-radius: 14px 14px 0 0; padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  :root[data-device="mobile"] .openspec { top: auto; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+  :root[data-device="mobile"] .walkcard { width: auto; left: max(10px, env(safe-area-inset-left, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); padding: 10px; gap: 6px; }
+  :root[data-device="mobile"] .keys { display: none !important; }
+  :root[data-device="mobile"] .rstatus { display: none; }
+  :root[data-device="mobile"] .tag { font-size: 10.5px; padding: 2px 7px; }
+  :root[data-device="mobile"] .more { display: block; }
+  :root[data-device="mobile"] .rail:not(.expanded) .opt, :root[data-device="mobile"] .rail:not(.expanded) .savebox, :root[data-device="mobile"] .rail:not(.expanded) .facts, :root[data-device="mobile"] .rail:not(.expanded) .devbox { display: none; }
+  :root[data-device="mobile"] body.ledger-open .rail { display: none; }
+  :root[data-device="mobile"] .views { flex-direction: row; overflow-x: auto; gap: 4px; scrollbar-width: none; }
+  :root[data-device="mobile"] .views button { flex: none; padding: 8px 11px; font-size: 13px; background: var(--chip); }
+  :root[data-device="mobile"] .views button span { display: none; }
+  :root[data-device="mobile"] h1 { font-size: 18px; }
+  :root[data-device="mobile"] body.walking .rail { display: none; }
+  :root[data-device="mobile"] #minimap { max-height: 120px; object-fit: contain; }
+  :root[data-device="mobile"] .rooms button { padding: 8px 0; }
+  .more { display: none; }
+  .pad { display: none; gap: 6px; direction: ltr; }
+  :root[data-touch="1"] body.walking .pad, :root[data-device="mobile"] body.walking .pad { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pad button { appearance: none; border: 0; border-radius: 8px; background: var(--ink); color: var(--bg); font-size: 18px; line-height: 1; padding: 12px 0; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .pad button:active, .pad button.on { background: var(--accent); color: var(--accent-ink); }
+  .devbox .seg button { font-size: 11.5px; }
+  :root[data-device="mobile"] .views button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .walkexit { display: none; }
+  :root[data-device="mobile"] .walkexit { display: inline; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<three-d-stage name="T3-D3_apartment_138"></three-d-stage>
+<div class="loading" id="loading">בונה את המודל…</div>
+<div class="tags" id="tags" aria-label="חדרים"></div>
+
+<aside class="rail" id="rail" aria-label="שליטה בהדמיה">
+  <div>
+    <div class="eyebrow">בת גלים, חיפה · פרויקט TOPIA · מגדל T3</div>
+    <h1>דירה 138 <span class="num">T3-D3</span></h1>
+    <div class="facts">
+      <div class="fact"><b>108.0</b><span>מ״ר שטח דירה</span></div>
+      <div class="fact"><b>9.7</b><span>מ״ר מרפסת שמש</span></div>
+      <div class="fact"><b>23</b><span>קומה מתוך 32</span></div>
+    </div>
+    <div class="sub">4 חדרים, כיווני אוויר דרום-מערב. משורטט 1:1 מתוכנית המכר 1:50 ומתוכנית קומה 1:100, עם הגמרים והאביזרים של מפרט המכר.</div>
+  </div>
+  <div class="views" id="views">
+    <button type="button" data-view="cutaway" aria-pressed="true">חתך אקסונומטרי <span>תוכנית</span></button>
+    <button type="button" data-view="walk" aria-pressed="false">סיור בתוך הדירה <span>גוף ראשון</span></button>
+    <button type="button" data-view="building" aria-pressed="false">הדירה במגדל <span>T3 + T4</span></button>
+    <button type="button" data-view="parking" aria-pressed="false">חניון המתחם <span>מרתפים 1-, 2-</span></button>
+    <button type="button" data-view="balconyview" aria-pressed="false">הנוף מהמרפסת <span>פנורמה ושקיעה</span></button>
+  </div>
+  <div class="floors" id="floors">
+    <div class="label">דגם D3 בקומות 1–29 · המסגרת = דירה 138</div>
+    <div class="chips" id="chips"></div>
+    <div class="unitline" id="unitline"></div>
+  </div>
+  <button type="button" class="btn more" id="moreBtn" aria-expanded="false">בחירות מהמפרט ושמירה</button>
+  <div class="floors" id="plevels">
+    <div class="label">מפלס חניון</div>
+    <div class="seg" id="levelSeg"><button type="button" data-v="-1" aria-pressed="true">מרתף 1-</button><button type="button" data-v="-2" aria-pressed="false">מרתף 2-</button></div>
+    <div class="unitline" id="parkline"></div>
+    <div class="sub" style="margin-top:2px">חניון תת־קרקעי משותף לכל בנייני המתחם. גרעין T3 מסומן בכתום, והמסגרת הכתומה היא קו המגדל שמעל. המספור מופיע רק על החניות שממוספרות בתוכנית, והמכוניות להמחשה.</div>
+  </div>
+  <div class="opt" id="opts">
+    <div class="label">בחירות מתוך המפרט</div>
+    <div class="row"><div>ריצוף פורצלן בחדרי המגורים</div><div class="seg" id="tileSeg"></div></div>
+    <div class="row"><div>חדר שינה הורים</div><div class="seg" id="parqSeg"><button type="button" data-v="0" aria-pressed="true">פורצלן</button><button type="button" data-v="1" aria-pressed="false">פרקט (אופציה)</button></div></div>
+    <div class="row"><div>תריסים חשמליים ופלדת ממ״ד</div><div class="seg" id="shutSeg"><button type="button" data-v="0" aria-pressed="true">פתוחים</button><button type="button" data-v="0.5" aria-pressed="false">חצי</button><button type="button" data-v="1" aria-pressed="false">סגורים</button></div></div>
+    <div class="row"><div>נקודות חשמל לפי טבלה 5</div><div class="seg" id="elecSeg"><button type="button" data-v="0" aria-pressed="true">רגיל</button><button type="button" data-v="1" aria-pressed="false">סמן בכתום</button></div></div>
+  </div>
+  <div class="savebox">
+    <div class="label">שמירה</div>
+    <div class="actions">
+      <button type="button" class="btn" id="savePng">תמונה PNG</button>
+      <button type="button" class="btn" id="saveObj">מודל OBJ (zip)</button>
+      <button type="button" class="btn" id="saveGlb">מודל GLB (zip)</button>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+  <div class="devbox">
+    <div class="label">תצוגה מותאמת ל<span id="devAuto"></span></div>
+    <div class="seg" id="devSeg"><button type="button" data-v="auto">זיהוי אוטומטי</button><button type="button" data-v="desktop">מחשב</button><button type="button" data-v="mobile">נייד</button></div>
+  </div>
+  <div class="note">גובה תקרה 2.60 מ׳ (מפרט: לפחות 2.50), תקרה מונמכת 2.40 בפרוזדורים ובחדרים הרטובים (מפרט: לפחות 2.05). גובה קומה 3.20 מ׳ וקומת קרקע 5.0 מ׳ הם הנחה, אין חתך בסט. הריהוט, מיקומי השקעים והגופים להמחשה בלבד; הכמויות לפי המפרט.</div>
+</aside>
+
+<button type="button" class="btn primary openspec" id="openSpec">מפרט המכר</button>
+<aside class="ledger" id="ledger" hidden aria-label="מפרט מכר">
+  <div class="lhead">
+    <div><h2>מפרט מכר · דירה 138</h2><p>T3-D3, 4 חדרים · מהדורה 23.08.2026 · מותנה בהיתר</p></div>
+    <button type="button" class="x" id="closeSpec" aria-label="סגירת המפרט">×</button>
+  </div>
+  <div class="tabs" role="tablist" id="tabs">
+    <button type="button" role="tab" data-tab="rooms" aria-selected="true">חדר־חדר</button>
+    <button type="button" role="tab" data-tab="systems" aria-selected="false">מערכות</button>
+    <button type="button" role="tab" data-tab="building" aria-selected="false">הבניין</button>
+    <button type="button" role="tab" data-tab="credits" aria-selected="false">זיכויים</button>
+  </div>
+  <div class="lbody" id="lbody"></div>
+</aside>
+
+<section class="pane" id="pane" hidden aria-label="הנוף ממרפסת דירה 138">
+  <div class="panebar">
+    <div class="panetitle"><b>הנוף מהמרפסת</b> <span>קומה 23 · מבט מערבה וצפונה</span></div>
+    <div class="panetabs" id="panetabs">
+      <button type="button" data-view="cutaway">חתך</button><button type="button" data-view="walk">סיור</button><button type="button" data-view="building">המגדל</button><button type="button" data-view="parking">חניון</button><button type="button" data-view="balconyview" aria-pressed="true">הנוף</button>
+    </div>
+  </div>
+  <iframe id="paneframe" title="הנוף ממרפסת T3_D3, קומה 23"></iframe>
+  <div class="panemsg" id="panemsg">טוען את הנוף…</div>
+</section>
+<button class="rstatus" id="rstatus" data-mode="off" type="button"></button>
+<div class="keys" id="keyhint"><b>גרירה</b> להסתכל סביב · <b>W A S D</b> או החצים להליכה · <b>Shift</b> מהר יותר · <b>קליק על הרצפה</b> כדי ללכת לשם · קליק במפה כדי לקפוץ</div>
+<aside class="walkcard" id="walkcard" aria-label="ניווט בסיור">
+  <div class="here"><span>אתם ב<b id="hereName">כניסה</b></span><span><button type="button" class="linkbtn" id="hereView" hidden>הנוף המלא</button> <button type="button" class="linkbtn" id="hereSpec">מפרט החדר</button> <button type="button" class="linkbtn walkexit" id="walkExit">יציאה מהסיור</button></span></div>
+  <div class="pad" id="pad" aria-label="הליכה במגע">
+    <button type="button" data-k="arrowleft" aria-label="פנייה שמאלה">↺</button><button type="button" data-k="w" aria-label="קדימה">▲</button><button type="button" data-k="s" aria-label="אחורה">▼</button><button type="button" data-k="arrowright" aria-label="פנייה ימינה">↻</button>
+  </div>
+  <div class="rooms" id="rooms"></div>
+  <canvas id="minimap" aria-label="מפת הדירה, קליק כדי לעבור לשם"></canvas>
+</aside>
+
+<script src="three-d-stage.js"></script>
+<script type="module">
+  import { build } from 'app-model';
+  import { createWalk } from 'app-walk';
+  import { createPipeline } from 'app-render';
+  import { buildParking } from 'app-parking';
+
+  // ===================== sale spec (מפרט מכר T3-D3, 23.08.2026) =====================
+  const PORC = 'פורצלן סוג א׳, לבחירה מתוך 12 דגמים לפחות, 60×60 / 80×80 / 100×100 / 60×120 ס״מ, מניעת החלקה R-9';
+  const WALL = 'בלוקי בטון / בטון / גבס, טיח וצבע אקרילי (סופרקריל או ש״ע), לבן';
+  const CEILS = 'טיח / גבס וצבע סינטטי (פוליסיד או ש״ע), לבן';
+  const ROOMS = {
+    entrance: { n: 'כניסה', pos: [1022, 525], floor: PORC, walls: WALL, ceil: CEILS + ' · 2.60 מ׳',
+      open: 'דלת פלדה לביטחון (רב־בריח או ש״ע) כ-100/220 ס״מ, מנעול רב־בריח, עינית, מגן צילינדר, ידית נגררת ומעצור',
+      elec: [['נק׳ מאור', 1], ['אינטרקום עם מסך', 1]], more: 'לוח חשמל ולוח תקשורת בתוך הדירה, מיקום לפי מהנדס החשמל. בית חכם RF בחלל הציבורי: תאורה, תריסים ותרחישים מהאפליקציה.' },
+    living: { n: 'חדר דיור', pos: [612, 470], area: 'ldk', floor: PORC, walls: WALL, ceil: CEILS + ' · 2.60 מ׳',
+      open: 'דלת הזזה מזוגגת לאלומיניום, כנף על כנף, כ-240/240 ס״מ · תריס גלילה חשמלי, שלבי אלומיניום',
+      elec: [['נק׳ מאור', 2], ['בית תקע', 5], ['טלוויזיה', '✓'], ['טלפון / תקשורת', '✓']], more: 'יציאה למרפסת השמש. הכנה למסך בקיר (שרוול) והכנה לקולנוע ביתי.' },
+    dining: { n: 'פינת אוכל', pos: [845, 505], area: 'ldk', floor: PORC, walls: WALL, ceil: CEILS + ' · 2.60 מ׳',
+      elec: [['נק׳ מאור', 1], ['בית תקע', 1]] },
+    kitchen: { n: 'מטבח', pos: [880, 330], area: 'ldk', floor: PORC, walls: WALL + '. חיפוי פורצלן כ-60 ס״מ מעל משטח העבודה (10/30 או 30/90 ס״מ)', ceil: CEILS + ' · 2.60 מ׳',
+      open: 'אין חלון, אוורור מכני', san: 'כיור מטבח אגן יחיד בהתקנה תחתונה · סוללה פרח/מערבל נשלף (גרוהה או ש״ע) · הכנה למדיח (חיבור לכיור) · נקודת מים למקרר · נקודת גז לבישול',
+      elec: [['נק׳ מאור', 1], ['בית תקע', 3], ['מעגל נפרד', 3], ['IP44', 1], ['כוח תלת־פאזי לכיריים', 1]],
+      more: 'ארונות תחתונים + עליונים + גבוהים, כ-6.5 מ׳ אורך כולל. יחידת תנור ומיקרו גבוהה, תא אחסון מעל המקרר. דלתות MDF בציפוי פורמייקה, פרזול גראס או ש״ע, טריקה שקטה. משטח קוורץ (אבן קיסר / שיש ליאן / שיש מזרחי) 20 מ״מ, 4 גוונים לבחירה.' },
+    corridor: { n: 'פרוזדורים', tag: 'פרוזדור', pos: [540, 582], floor: PORC, walls: WALL, ceil: 'תקרה מונמכת לתעלות מיזוג · 2.40 מ׳ (מפרט: לפחות 2.05)', elec: [['נק׳ מאור', 1]], more: 'יחידת מיזוג פנימית ותעלות VRF מעל התקרה המונמכת.' },
+    master: { n: 'יחידת הורים', showArea: true, pos: [372, 600], area: 'master', floor: PORC + '. אופציה לפרקט (למינציה)', walls: WALL, ceil: CEILS + ' · 2.60 מ׳',
+      open: 'חלון אלומיניום מזוגג כ-160/220 ס״מ, הזזה כנף על כנף + חלק קבוע תחתון · תריס גלילה חשמלי · דלת עץ כ-80/210',
+      elec: [['נק׳ מאור (מחליף)', 1], ['בית תקע', 3], ['טלוויזיה', '✓'], ['טלפון / תקשורת', '✓'], ['אינטרקום פומית', 1]] },
+    masterBath: { n: 'רחצת הורים', tag: 'רחצת הורים', pos: [516, 700], area: 'masterBath', floor: 'פורצלן 60×60 / 20×20 / 15×61 (דמוי פרקט), מניעת החלקה R-10, ריצוף משופע במקלחת', walls: 'חיפוי קרמיקה עד התקרה המונמכת, 30×90 / 33×100 / 30×60 ס״מ', ceil: 'תקרה מונמכת · 2.40 מ׳',
+      open: 'חלון אלומיניום כ-70/220 ס״מ, נטוי (קיפ) + חלק קבוע תחתון, זכוכית חלבית · דלת עץ כ-80/210 עם צוהר ונעילת תפוס/פנוי',
+      san: 'מקלחת פינתית עם מחיצת זכוכית · סוללה רב־דרך כרום: ראש נייד על מוט + ראש גשם · ארון רחצה עד 100 ס״מ עם כיור אינטגרלי ומראה · אסלה תלויה, ארגז שטיפה סמוי דו־כמותי',
+      elec: [['נק׳ מאור מוגן', 1], ['מעגל נפרד לחימום', 1]] },
+    bed3: { n: 'חדר שינה 3', showArea: true, pos: [654, 625], area: 'bed3', floor: PORC, walls: WALL, ceil: CEILS + ' · 2.60 מ׳',
+      open: 'חלון אלומיניום כ-100/220 ס״מ, סב־נטוי (דרייקיפ) + חלק קבוע תחתון · תריס גלילה חשמלי · דלת עץ כ-80/210',
+      elec: [['נק׳ מאור', 1], ['בית תקע', 3], ['טלוויזיה', '✓'], ['טלפון / תקשורת', '✓']] },
+    mamad: { n: 'ממ״ד / חדר שינה 2', tag: 'ממ״ד / שינה 2', showArea: true, pos: [850, 745], area: 'mamad', floor: PORC + '. רצפה וסף גבוהים כ-1.5 ס״מ', walls: 'בטון מזוין לפי הוראות הג״א, טיח וצבע', ceil: 'בטון מזוין, גמר לפי מפרט הג״א · 2.60 מ׳',
+      open: 'דלת פלדה אטומה לפי פקע״ר כ-80/200, נפתחת החוצה + דלת עץ פנימית · חלון אלומיניום כ-100/100 + כנף פלדה הנגררת לכיס · תריס אלומיניום נגרר לכיס · פתחי אוורור חסומים בדיסקיות פלדה',
+      elec: [['נק׳ מאור', 1], ['בית תקע', 3], ['למסנן', 1], ['טלוויזיה', '✓'], ['טלפון / תקשורת', '✓']], more: 'מערכת סינון אוויר לפי הנחיות פיקוד העורף. אין לקבוע סורג (פתח חילוץ).' },
+    bath: { n: 'רחצה כללי', tag: 'רחצה כללי', pos: [1000, 650], area: 'bath', floor: 'פורצלן 60×60 / 20×20 / 15×61, מניעת החלקה R-10', walls: 'חיפוי קרמיקה עד התקרה המונמכת, 30×90 / 33×100 / 30×60 ס״מ', ceil: 'תקרה מונמכת · 2.40 מ׳',
+      open: 'אין חלון, אוורור מכני · דלת עץ כ-80/210 עם צוהר ונעילת תפוס/פנוי',
+      san: 'אמבטיה אקרילית כ-160–170/70 · סוללה רב־דרך כרום: ראש נייד על מוט + אביק + פיית מילוי · ארון רחצה עד 120 ס״מ עם כיור אינטגרלי ומראה · אסלה תלויה, ארגז שטיפה סמוי',
+      elec: [['נק׳ מאור מוגן', 1], ['מעגל נפרד לחימום', 1]] },
+    wc: { n: 'שירותי אורחים', tag: 'שירותים', pos: [788, 600], area: 'wc', floor: 'פורצלן 60×60 / 20×20 / 15×61, R-10', walls: 'חיפוי קרמיקה עד התקרה המונמכת', ceil: 'תקרה מונמכת · 2.40 מ׳',
+      open: 'אוורור מכני · דלת עץ כ-80/210 עם צוהר', san: 'אסלה תלויה + ארגז סמוי · כיור נטילת ידיים, סוללה פרח פיה קצרה, מים קרים בלבד', elec: [['נק׳ מאור', 1]] },
+    service: { n: 'מרפסת שירות', tag: 'שירות', pos: [708, 322], area: 'service', floor: 'פורצלן 60×60 / 20×20 / 15×61', walls: WALL, ceil: 'תקרה מונמכת · 2.40 מ׳',
+      open: 'חלון אלומיניום כ-130/115 ס״מ, הזזה, אל המסתור · דלת עץ כ-80/210', san: 'חיבור מכונת כביסה + ניקוז · פתח 4״ בדופן חיצונית למייבש',
+      elec: [['נק׳ מאור', 1], ['מעגל נפרד', 2]] },
+    mistor: { n: 'מסתור כביסה / מערכות', tag: 'מסתור', pos: [600, 292], area: 'mistor', floor: 'ללא ריצוף', walls: WALL, ceil: '—',
+      open: 'מסתור מאלומיניום בחזית', san: 'דוד מים חמים 150 ל׳ (כרומגן או ש״ע) · 2 מוטות כביסה טלסקופיים עם גלגלות', more: 'עשויים להיות בו מעבים של מיזוג האוויר. חימום מים סולארי מהגג.' },
+    balcony: { n: 'מרפסת שמש', showArea: true, pos: [360, 420], area: 'balcony', floor: 'פורצלן 60×60 / 20×20 / 15×61, מניעת החלקה R-11, שיפוע לניקוז', walls: 'חיפוי / ציפוי חיצוני לפי החזית', ceil: 'מקורה (מרפסת הקומה שמעל)',
+      open: 'מעקה זכוכית / אלומיניום לפי האדריכל', san: 'ברז גינה (דלי) · הכנה לנקודת גז', elec: [['נק׳ מאור מוגן', 1], ['IP44', 1]], more: '9.7 מ״ר, מקורה.' },
+  };
+  const ROOM_ORDER = ['entrance', 'living', 'dining', 'kitchen', 'balcony', 'master', 'masterBath', 'bed3', 'mamad', 'bath', 'wc', 'corridor', 'service', 'mistor'];
+  const SYSTEMS = [
+    ['מיזוג אוויר', 'מיני VRF מרכזי (תדיראן / אלקטרה או ש״ע), כולל צנרת גז, חשמל וניקוז, תעלות פיזור ותריסי אספקה בכל החדרים (סופר גל או ש״ע), תריס אוויר חוזר ופתרון מעבר לממ״ד. מזגן מפוצל אחד אין. רדיאטורים וחימום רצפה אין. הכנה לתנור חימום חשמלי בחדרי הרחצה.'],
+    ['חשמל', 'חיבור תלת־פאזי 3×25 אמפר. לוח חשמל ולוח תקשורת בדירה עם 5 מקומות שמורים. נקודת חשמל לדוד. אינטרקום צבעוני עם מסך בכניסה ופומית בחדר ההורים. פעמון, מפסק תאורה בחדר המדרגות.'],
+    ['בית חכם', 'מערכת RF עם יחידת בקרה: שליטה בתאורה, בתריסים החשמליים ובתרחישים בכניסה, בחדר הדיור, במטבח ובפינת האוכל, טיימר לדוד, אפליקציה לאנדרואיד ול־iOS.'],
+    ['מים חמים', 'מערכת סולארית או משאבת חום לפי ת״י 579 / 6226. דוד 150 ל׳ במסתור או בארון. חיבור מים חמים לכל הכיורים, לאמבטיה ולמקלחת.'],
+    ['גז', 'צנרת גז ממקור הגז עד נקודה במטבח ובמרפסת השמש, הכנה למונה גז.'],
+    ['דלתות פנים', 'פנדור יוניק קלאסיק או ש״ע: כנף פורמייקה במילוי פלקסבורד, קנט תואם, משקוף פולימרי WPC עמיד במים, מנעול מגנטי, 2 צירי פייפ. בחדרי הרחצה צוהר ונעילת תפוס/פנוי.'],
+    ['חלונות ותריסים', 'פרופילי אלומיניום, זיגוג כפול (בידודית) בכל החלונות. רשת נגד יתושים בכנף אחת. תריסי גלילה חשמליים בדיור ובחדרי השינה, חגורה ידנית כגיבוי אין.'],
+    ['בטיחות', 'מערכת ספרינקלרים בדירה ככל שתידרש. גלאי עשן לפי יועץ הבטיחות. מערכת סינון בממ״ד.'],
+  ];
+  const BUILDING = [
+    ['המגדל', 'T3: קומת קרקע (לובי, מועדון דיירים, מסחר), 32 קומות מגורים, 186 דירות. קומות 1–30 עם 6 דירות, קומה 31 עם 4, קומה 32 פנטהאוז עם 2. גג טכני וגג עליון.'],
+    ['מעליות', '5 מעליות ב־T3, 35 תחנות, מהירות 3.0 מ׳/ש׳, מעלית שבת אחת. תוצרת קונה, מיצובישי, אלקטרה, טיסנקרופ, שינדלר או ש״ע.'],
+    ['הפרויקט', 'מתחם TOPIA, בת גלים: T1, T2, T3, T4 (16 קומות), M1–M3. 2 מרתפי חניה משותפים וחניונים עיליים. ייזום: הכשרת הישוב התחדשות עירונית + בית וגג. אדריכלים: גל־אור פישביין.'],
+    ['שטחים', 'שטח דירה 108.0 מ״ר, מרפסת שמש מקורה 9.7 מ״ר (תוכנית המכר).'],
+    ['חניון', '3 מרתפי חניה משותפים לכל המתחם (בסט מופיעים 1- ו־2-) ו־3 חניונים עיליים. חניות נכים לפי הדין. גישה ברכב לחניון, שער חשמלי עם פתיחה באפליקציה ומחסום בשעת עומס. מיקום החניות, ככל שנרכשו, ייקבע בתוכנית המכר.'],
+    ['כתובת', 'רחוב שרל לוץ / העלייה השנייה, חיפה. גוש 10919 חלקה 8, מגרשים 1–3, תוכנית 304-0540534.'],
+  ];
+  const CREDITS = [
+    ['ארונות מטבח (כל המערכת, ללא משטח)', '7,500', '15,000'], ['משטח עבודה, למ״א', '700', '700'], ['ארון רחצה כללי', '1,500', '1,500'], ['ארון רחצה הורים', '1,350', '1,350'],
+    ['ריצוף מגורים, למ״ר', '74', '75'], ['ריצוף רחצה ומרפסת שירות, למ״ר', '49', '50'], ['ריצוף מרפסת שמש, למ״ר', '49', '50'], ['חיפוי קרמיקה, למ״ר', '56', '70'],
+    ['כיור מטבח', '510', '650'], ['אסלה תלויה + ארגז + מושב', '980', '1,068'], ['אמבטיה', '615', '650'], ['מקלחון חזיתי', '1,500', '1,750'], ['סוללה לכיור מטבח', '460', '550'], ['סוללה למקלחת / לאמבטיה', '480', '495'],
+    ['נקודת מאור, זיכוי', '90', '—'], ['בית תקע, זיכוי', '90', '—'], ['בית תקע, תוספת', '240', '—'], ['נקודת כוח (פקט), תוספת', '610', '—'],
+  ];
+
+  // ===================== scene =====================
+  const stage = document.querySelector('three-d-stage');
+  const { THREE } = await stage.ready;
+  const dev = () => document.documentElement.dataset.device, isMobile = () => dev() === 'mobile';
+  { const dpr = window.devicePixelRatio || 1, r = stage._renderer;
+    r.setPixelRatio(Math.min(dpr, isMobile() ? 1.5 : dev() === 'tablet' ? 1.75 : 2));
+    stage._key.shadow.mapSize.set(isMobile() ? 2048 : 4096, isMobile() ? 2048 : 4096); }
+  // stage chrome in Hebrew; exports go through the page's own save buttons
+  const stageNote = () => { const n = stage.shadowRoot.querySelector('.note'); if (!n) return; n.textContent = document.documentElement.dataset.touch === '1' ? 'גררו באצבע לסיבוב · צביטה לזום · שתי אצבעות להזזה' : 'גררו לסיבוב · גלגלת לזום · גרירה ימנית להזזה'; n.style.left = '16px'; n.style.right = 'auto'; n.style.direction = 'rtl'; n.toggleAttribute('data-hide', isMobile()); };
+  { const st = document.createElement('style'); st.textContent = '.note[data-hide]{display:none!important}'; stage.shadowRoot.appendChild(st); }
+  { const tb = stage.shadowRoot.querySelector('.toolbar'); if (tb) tb.style.display = 'none'; stageNote(); }
+  const [unitPt, bldPt, parkPt] = await Promise.all(['data-unit', 'data-building', 'data-parking'].map((id) => fetch(window.__res(id)).then((r) => r.json())));
+  const tl = new THREE.TextureLoader();
+  const T = (n) => tl.loadAsync(window.__res('tx-' + n)).catch(() => null);
+  const [fd, fn, fr, od, on, or, bd, bn, br, ln, lr, wn] = await Promise.all(['laminate_floor_02_diffuse', 'laminate_floor_02_nor_gl', 'laminate_floor_02_rough', 'oak_veneer_01_diffuse', 'oak_veneer_01_nor_gl', 'oak_veneer_01_rough', 'curly_teddy_natural_diffuse', 'curly_teddy_natural_nor_gl', 'curly_teddy_natural_rough', 'rough_linen_nor_gl', 'rough_linen_rough', 'beige_wall_001_nor_gl'].map(T));
+  const TX = { floor: { d: fd, n: fn, r: fr }, oak: { d: od, n: on, r: or }, boucle: { d: bd, n: bn, r: br }, linen: { n: ln, r: lr }, wall: { n: wn } };
+  const M = await build(THREE, unitPt, bldPt, TX);
+  const chip = document.getElementById('rstatus');
+  const { HDRLoader } = await import('three/addons/loaders/HDRLoader.js');
+  const skyUrl = await fetch(window.__res('sky')).then((r) => r.json()).then(({ b64 }) => {
+    const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    const d = new HDRLoader().parse(u8.buffer), t = new THREE.DataTexture(d.data, d.width, d.height, d.format ?? THREE.RGBAFormat, d.type);
+    t.colorSpace = d.colorSpace ?? THREE.LinearSRGBColorSpace; t.flipY = d.flipY ?? true; t.minFilter = t.magFilter = THREE.LinearFilter; t.generateMipmaps = false; t.needsUpdate = true; return t;
+  });
+  const pipe = await createPipeline(THREE, stage, skyUrl, (s) => {
+    chip.dataset.mode = s.mode;
+    chip.textContent = s.mode === 'ready' ? 'רנדר פוטוריאליסטי' : s.mode === 'prep' ? 'מכין סימולציית אור, כמה שניות…' : s.mode === 'pt' ? (s.samples < 200 ? 'עוקב אחרי האור · ' + s.samples + ' דגימות · הזזה מבטלת' : 'פוטוריאליסטי · ' + s.samples + ' דגימות · הזזה מבטלת') : s.mode === 'error' ? 'הרנדר הפוטוריאליסטי לא נתמך במכשיר הזה' : '';
+  });
+  chip.onclick = () => { if (chip.dataset.mode === 'ready') pipe.startPhoto(); };
+  pipe.setAO(!isMobile());   // ambient-occlusion pass is the costliest step on phones
+  const PK = buildParking(THREE, parkPt);
+  document.getElementById('loading').remove();
+
+  const store = { get(k, d) { try { const v = localStorage.getItem('t3d3_' + k); return v == null ? d : v; } catch { return d; } }, set(k, v) { try { localStorage.setItem('t3d3_' + k, v); } catch {} } };
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const { K, UCX, UCY } = M;
+  const area = (poly) => { let a = 0; for (let i = 0; i < poly.length; i++) { const p = poly[i], q = poly[(i + 1) % poly.length]; a += p[0] * q[1] - q[0] * p[1]; } return Math.abs(a / 2) * K * K; };
+
+  // ===================== views =====================
+  let floor = Number(store.get('floor', 23)); if (!(floor >= 1 && floor <= 29)) floor = 23;
+  const VIEWS = {
+    cutaway: { obj: 'unit', ceiling: false, fov: 30, dirFrame: [-0.62, 1.32, 0.82], mult: 0.98, bg: '--stage-cut' },
+    walk: { obj: 'unit', ceiling: true, walk: true, bg: '--stage-walk' },
+    building: { obj: 'bld', fov: 30, bg: '--stage-bld' },
+    parking: { obj: 'park', fov: 30, bg: '--stage-bld' },
+    balconyview: { pane: true, bg: '--stage-cut' },
+  };
+  // ---- the balcony-view study (published next to this page, shown in full inside a frame) ----
+  const pane = document.getElementById('pane'), frame = document.getElementById('paneframe'), paneMsg = document.getElementById('panemsg');
+  let paneLoaded = false, lastScene = 'cutaway';
+  const syncFrameTheme = () => { try { const t = document.documentElement.dataset.theme, r = frame.contentDocument?.documentElement; if (r) { if (t) r.dataset.theme = t; else delete r.dataset.theme; } } catch {} };
+  frame.addEventListener('load', () => { if (paneLoaded) { paneMsg.hidden = true; syncFrameTheme(); } });
+  function openPane() {
+    document.body.classList.add('paneopen'); pane.hidden = false;
+    stage._renderer.setAnimationLoop(null);
+    if (!paneLoaded) {
+      paneLoaded = true;
+      fetch(new URL('views/balcony-view.html', document.baseURI)).then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then((html) => { frame.srcdoc = html; })
+        .catch(() => { paneLoaded = false; paneMsg.hidden = false; paneMsg.textContent = 'לא הצלחתי לטעון את הנוף. נסו לרענן את הדף.'; });
+    }
+  }
+  function closePane() {
+    if (pane.hidden) return;
+    pane.hidden = true; document.body.classList.remove('paneopen');
+    stage._renderer.setAnimationLoop(stage._loop);
+  }
+  let current = null, currentView = 'cutaway';
+  const ROOM_LABELS = { entrance: 'כניסה', living: 'דיור', kitchen: 'מטבח', balcony: 'מרפסת', master: 'הורים', masterBath: 'רחצת הורים', bed3: 'שינה 3', mamad: 'ממ״ד', bath: 'רחצה', service: 'שירות' };
+  const walker = createWalk(THREE, stage, M, unitPt, document.getElementById('minimap'));
+  const roomsEl = document.getElementById('rooms');
+  const markRoom = (r) => roomsEl.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.room === r)));
+  walker.rooms.forEach((r) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = ROOM_LABELS[r]; b.dataset.room = r; b.onclick = () => { walker.goto(r); markRoom(r); }; roomsEl.appendChild(b); });
+
+  function show(name) {
+    const v = VIEWS[name];
+    currentView = name; location.hash !== '#' + name && history.replaceState(null, '', '#' + name);
+    walker.stop();
+    document.querySelectorAll('#views button, #panetabs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === name)));
+    if (v.pane) { document.body.classList.remove('walking'); openPane(); return; }
+    closePane(); lastScene = name;
+    document.body.classList.toggle('walking', name === 'walk');
+    document.querySelectorAll('#views button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === name)));
+    document.getElementById('floors').classList.toggle('on', name === 'building');
+    document.getElementById('opts').hidden = name === 'building' || name === 'parking';
+    document.getElementById('plevels').classList.toggle('on', name === 'parking');
+    tagsEl.hidden = name !== 'cutaway' && name !== 'parking';
+    tagsEl.dataset.set = name;
+    stage.setBackground(css(v.bg));
+    if (v.obj === 'unit') {
+      M.ceil.visible = v.ceiling;
+      stage.setAttribute('name', 'T3-D3_apartment_138');
+      if (current !== 'unit') stage.setObject(M.unit, { frame: false });
+      stage.setFx(M.fx); M.fx.visible = v.ceiling;
+      stage._scene.environmentIntensity = v.ceiling ? 0.32 : 0.5;
+      stage._hemi.intensity = v.ceiling ? 0.3 : 0.4;
+      stage.setSun(v.ceiling ? { dir: [-0.62, 0.36, 0.7], center: [0, 0, 0], span: 10, intensity: 3.4 } : { dir: [-0.5, 0.72, 0.48], center: [0, 0, 0], span: 10, intensity: 2.8 });
+      pipe.setScene(v.ceiling ? 'unit-walk' : 'unit-cut', { photo: true, skyBackground: !!v.ceiling, exposure: v.ceiling ? 1.08 : 1.0, skyTilt: -0.12, skyIntensity: 0.9 });
+      if (v.walk) { walker.start('entrance'); markRoom('entrance'); }
+      else {
+        const box = new THREE.Box3().setFromObject(M.unit), c = box.getCenter(new THREE.Vector3()), r = box.getBoundingSphere(new THREE.Sphere()).radius;
+        const d = (r / Math.tan((v.fov * Math.PI) / 360)) * v.mult, dir = new THREE.Vector3(...v.dirFrame).normalize();
+        c.y = 0.6;
+        // keep the plan clear of the control rail: slide the target along the camera's right vector
+        const pos = c.clone().add(dir.clone().multiplyScalar(d)), fwd = c.clone().sub(pos).normalize(), right = new THREE.Vector3().crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize();
+        const asp = innerWidth / Math.max(1, innerHeight);
+        if (isMobile()) {
+          // portrait phone: back off to fit the width, and lift the target so the plan sits below the header
+          pos.copy(c).add(dir.clone().multiplyScalar(d * Math.max(1, 1.0 / asp)));
+          const up = new THREE.Vector3().crossVectors(right, fwd).normalize().multiplyScalar(r * 0.32);
+          stage.setView({ pos: pos.add(up).toArray(), target: c.add(up).toArray(), fov: v.fov });
+        } else {
+          const shift = r * 0.42;
+          stage.setView({ pos: pos.add(right.clone().multiplyScalar(shift)).toArray(), target: c.add(right.multiplyScalar(shift)).toArray(), fov: v.fov });
+        }
+      }
+      current = 'unit';
+    } else if (v.obj === 'park') {
+      stage.setAttribute('name', 'TOPIA_parking');
+      if (current !== 'park') stage.setObject(PK.park, { frame: false });
+      stage.setFx(null);
+      stage._scene.environmentIntensity = 0.5; stage._hemi.intensity = 0.45; stage._renderer.toneMappingExposure = 1.0;
+      stage.setSun({ dir: [-0.3, 0.9, 0.35], center: [0, 0, 0], span: 85, intensity: 2.8 });
+      const t = PK.t3center, tgt = new THREE.Vector3(t[0] * 0.25, 0, t[2] * 0.2 + 4), pos = tgt.clone().add(new THREE.Vector3(-0.12, 1.15, 0.72).normalize().multiplyScalar(isMobile() ? 275 * Math.max(1.15, 0.85 / (innerWidth / Math.max(1, innerHeight))) : 275));
+      const fwd = tgt.clone().sub(pos).normalize(), right = new THREE.Vector3().crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize().multiplyScalar(isMobile() ? 0 : 14);
+      stage.setView({ pos: pos.add(right).toArray(), target: tgt.add(right).toArray(), fov: v.fov });
+      pipe.setScene('park', { photo: false, skyBackground: false });
+      current = 'park';
+    } else {
+      stage.setAttribute('name', 'T3_tower_massing');
+      if (current !== 'bld') stage.setObject(M.bld, { frame: false });
+      stage.setFx(null);
+      stage._scene.environmentIntensity = 0.5; stage._hemi.intensity = 0.45; stage._renderer.toneMappingExposure = 1.0;
+      stage.setSun({ dir: [-0.55, 0.75, 0.5], center: [0, 50, 0], span: 75, intensity: 3.0 });
+      const t = M.unitInBld(670, 530, floor, 1.4), H = M.roofTop;
+      const tgt = new THREE.Vector3(t[0] * 0.3, H * 0.47, t[2] * 0.3), pos = tgt.clone().add(new THREE.Vector3(-0.6, 0.22, 0.77).normalize().multiplyScalar(H * 2.45));
+      const fwd = tgt.clone().sub(pos).normalize(), right = new THREE.Vector3().crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize().multiplyScalar(isMobile() ? 0 : H * 0.28);
+      stage.setView({ pos: pos.add(right).toArray(), target: tgt.add(right).toArray(), fov: v.fov });
+      pipe.setScene('bld', { photo: false, skyBackground: false });
+      current = 'bld';
+    }
+  }
+  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => stage.setBackground(css(VIEWS[currentView].bg)));
+  new MutationObserver(() => stage.setBackground(css(VIEWS[currentView].bg))).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // floor chips (D3 stack: apartment no. = 6 × floor)
+  const chips = document.getElementById('chips');
+  function setFloor(L) {
+    floor = L; store.set('floor', L); M.setFloor(L);
+    chips.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.f) === L)));
+    document.getElementById('unitline').innerHTML = `<b>דירה <span class="num">${L * 6}</span></b> · קומה <span class="num">${L}</span> מתוך 32 · דגם D3`;
+    if (currentView === 'building') show('building');
+  }
+  for (let L = 1; L <= 29; L++) { const b = document.createElement('button'); b.type = 'button'; b.textContent = L; b.dataset.f = L; if (L === 23) b.classList.add('own'); b.onclick = () => setFloor(L); chips.appendChild(b); }
+
+  // parking levels
+  const levelSeg = document.getElementById('levelSeg');
+  const setLevel = (k) => {
+    PK.setLevel(k); pickSeg(levelSeg, k); const c = PK.counts[k];
+    document.getElementById('parkline').innerHTML = `<b>מרתף ${k.slice(1)}-</b> · <span class="num">${c.stalls}</span> חניות בתוכנית` + (c.numbered ? ` · מתוכן <span class="num">${c.numbered}</span> ממוספרות` : ' · ללא מספור בגיליון');
+  };
+  levelSeg.querySelectorAll('button').forEach((b) => (b.onclick = () => setLevel(b.dataset.v)));
+
+  // ===================== spec options =====================
+  const TILES = [['60×60', 0.6, 0.6], ['80×80', 0.8, 0.8], ['100×100', 1.0, 1.0], ['60×120', 0.6, 1.2]];
+  const tileSeg = document.getElementById('tileSeg');
+  const pickSeg = (seg, v) => seg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === String(v))));
+  TILES.forEach(([n, w, h], i) => { const b = document.createElement('button'); b.type = 'button'; b.innerHTML = `<span class="num">${n}</span>`; b.dataset.v = i; b.onclick = () => { M.setTile(w, h); pickSeg(tileSeg, i); store.set('tile', i); }; tileSeg.appendChild(b); });
+  { const i = Number(store.get('tile', 1)) || 1; M.setTile(TILES[i][1], TILES[i][2]); pickSeg(tileSeg, i); }
+  const seg = (id, key, fn, def) => { const el = document.getElementById(id); el.querySelectorAll('button').forEach((b) => (b.onclick = () => { fn(Number(b.dataset.v)); pickSeg(el, b.dataset.v); store.set(key, b.dataset.v); })); const v = store.get(key, def); fn(Number(v)); pickSeg(el, v); };
+  seg('parqSeg', 'parq', (v) => M.setParquet(!!v), '0');
+  seg('shutSeg', 'shut', (v) => { M.setShutters(v); pipe.stopPhoto(); }, '0');
+  seg('elecSeg', 'elec', (v) => M.setOutlets(!!v), '0');
+
+  // ===================== room tags in the cutaway =====================
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const tagsEl = document.getElementById('tags');
+  const tagBtns = {};
+  ROOM_ORDER.forEach((k) => {
+    const R = ROOMS[k]; const b = document.createElement('button'); b.type = 'button'; b.className = 'tag'; b.dataset.room = k;
+    const a = R.area && R.area !== 'ldk' ? area(M.ROOMS[R.area]) : null;
+    b.innerHTML = esc(R.tag || R.n) + (a && R.showArea ? `<span class="num">· ${a.toFixed(1)} מ״ר</span>` : '');
+    b.onclick = () => openSpec('rooms', k); tagsEl.appendChild(b); tagBtns[k] = b;
+  });
+  const parkTags = PK.labels.map((l) => { const b = document.createElement('div'); b.className = 'tag ptag' + (l.t === 'T3' ? ' own' : ''); b.textContent = l.t === 'T3' ? 'T3 · לובי ומעליות' : l.t; tagsEl.appendChild(b); return [b, l.w]; });
+  const v3 = new THREE.Vector3();
+  const put = (el, wx, wy, wz, cam, w, h) => { v3.set(wx, wy, wz).project(cam); el.style.left = ((v3.x + 1) / 2 * w).toFixed(1) + 'px'; el.style.top = ((1 - v3.y) / 2 * h).toFixed(1) + 'px'; el.hidden = v3.z > 1; };
+  function placeTags() {
+    if (!tagsEl.hidden) {
+      const cam = stage.camera, w = stage.clientWidth, h = stage.clientHeight, inPark = tagsEl.dataset.set === 'parking';
+      for (const k of ROOM_ORDER) { if (inPark) { tagBtns[k].hidden = true; continue; } const [x, y] = ROOMS[k].pos; put(tagBtns[k], (x - UCX) * K, 0.25, (y - UCY) * K, cam, w, h); }
+      for (const [el, p] of parkTags) { if (!inPark) { el.hidden = true; continue; } put(el, p[0], p[1], p[2], cam, w, h); }
+    }
+    requestAnimationFrame(placeTags);
+  }
+  requestAnimationFrame(placeTags);
+
+  // ===================== spec ledger =====================
+  const ledger = document.getElementById('ledger'), lbody = document.getElementById('lbody');
+  let tab = 'rooms', room = 'living';
+  function render() {
+    document.querySelectorAll('#tabs button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
+    Object.values(tagBtns).forEach((b) => b.setAttribute('aria-pressed', String(!ledger.hidden && tab === 'rooms' && b.dataset.room === room)));
+    if (tab === 'rooms') {
+      const R = ROOMS[room];
+      const a = R.area ? area(M.ROOMS[R.area]) : null;
+      const rows = [['ריצוף', R.floor], ['קירות', R.walls], ['תקרה', R.ceil], R.open && ['פתחים', R.open], R.san && ['כלים ואביזרים', R.san], R.more && ['עוד', R.more]].filter(Boolean);
+      lbody.innerHTML = `<div class="roompick">${ROOM_ORDER.map((k) => `<button type="button" data-room="${k}" aria-pressed="${k === room}">${esc(ROOMS[k].n)}</button>`).join('')}</div>
+        <div class="rtitle"><h3>${esc(R.n)}</h3>${a ? `<span class="ref">כ-<span class="num">${a.toFixed(1)}</span> מ״ר${R.area === 'ldk' ? ' (דיור, אוכל ומטבח יחד)' : ''}</span>` : ''}</div>
+        <dl class="spec">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}
+        <dt>חשמל</dt><dd><div class="elec">${R.elec.map(([k, n]) => `<span>${esc(k)}<b>${n}</b></span>`).join('')}</div></dd></dl>
+        ${room === 'balcony' ? '<button type="button" class="btn primary" id="toView">הנוף מהמרפסת: פנורמה, שקיעות ומה ייבנה מסביב</button>' : ''}
+        <div class="ref">מקור: טבלאות 2–5 במפרט המכר. השטח מחושב מקירות התוכנית לפני טיח וחיפוי.</div>`;
+      lbody.querySelector('#toView')?.addEventListener('click', () => { closeSpec(); show('balconyview'); });
+      lbody.querySelectorAll('.roompick button').forEach((b) => (b.onclick = () => { room = b.dataset.room; render(); }));
+    } else if (tab === 'systems' || tab === 'building') {
+      const L = tab === 'systems' ? SYSTEMS : BUILDING;
+      lbody.innerHTML = L.map(([h, t]) => `<div class="sec"><h4>${esc(h)}</h4><div style="font-size:12.5px;line-height:1.6;color:var(--ink-2)">${esc(t)}</div></div>`).join('');
+    } else {
+      lbody.innerHTML = `<div style="font-size:12px;color:var(--ink-2);line-height:1.55">מחירי זיכוי בש״ח לא כולל מע״מ, לא צמודים (נספח ג׳). זיכוי בפועל רק בהודעה בכתב עד 30 יום לפני יציקת הריצוף.</div>
+        <div class="wrapx"><table class="cr"><thead><tr><th>פריט</th><th>זיכוי כספי</th><th>לשדרוג</th></tr></thead><tbody>${CREDITS.map(([a, b, c]) => `<tr><td>${esc(a)}</td><td class="n">${b}</td><td class="n">${c}</td></tr>`).join('')}</tbody></table></div>`;
+    }
+  }
+  function openSpec(t, r) { tab = t || tab; if (r) room = r; ledger.hidden = false; document.body.classList.add('ledger-open'); render(); }
+  function closeSpec() { ledger.hidden = true; document.body.classList.remove('ledger-open'); render(); }
+  document.getElementById('openSpec').onclick = () => openSpec();
+  document.getElementById('moreBtn').onclick = (e) => { const on = document.getElementById('rail').classList.toggle('expanded'); e.currentTarget.setAttribute('aria-expanded', String(on)); };
+  document.getElementById('closeSpec').onclick = closeSpec;
+  document.querySelectorAll('#tabs button').forEach((b) => (b.onclick = () => { tab = b.dataset.tab; render(); }));
+
+  // which room the walker stands in
+  const inPoly = (x, y, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, yi] = poly[i], [xj, yj] = poly[j]; if (((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) c = !c; } return c; };
+  const whereAmI = (x, y) => {
+    for (const k of ['master', 'masterBath', 'bed3', 'mamad', 'bath', 'wc', 'service', 'mistor', 'balcony', 'corridor']) if (inPoly(x, y, M.ROOMS[k])) return k;
+    if (inPoly(x, y, M.ROOMS.hall)) return 'corridor';
+    if (inPoly(x, y, M.ROOMS.ldk)) { if (x > 995 && y > 455) return 'entrance'; if (y < 330 && x > 764) return 'kitchen'; return x < 755 ? 'living' : 'dining'; }
+    return null;
+  };
+  let lastHere = '';
+  const hereName = document.getElementById('hereName');
+  setInterval(() => {
+    if (currentView !== 'walk') return;
+    const c = stage.camera.position, k = whereAmI(c.x / K + UCX, c.z / K + UCY);
+    if (k && k !== lastHere) { lastHere = k; hereName.textContent = ROOMS[k].n; document.getElementById('hereView').hidden = k !== 'balcony'; if (!ledger.hidden && tab === 'rooms') { room = k; render(); } }
+  }, 250);
+  document.getElementById('hereSpec').onclick = () => openSpec('rooms', lastHere || 'entrance');
+
+  // ===================== saving (image + model) =====================
+  const toast = document.getElementById('toast');
+  const say = (t) => { toast.textContent = t; clearTimeout(say.t); say.t = setTimeout(() => (toast.textContent = ''), 5000); };
+  let downloads = null;
+  window.claude?.use?.('downloads')?.then((d) => { downloads = d; if (!d) ['saveObj', 'saveGlb', 'savePng'].forEach((id) => (document.getElementById(id).disabled = true)); }).catch(() => {});
+  // outside Claude (e.g. a static site) the browser's own download works
+  if (!window.claude?.use) downloads = { save: async ({ filename, data }) => { const u = URL.createObjectURL(data instanceof Blob ? data : new Blob([data])); const a = document.createElement('a'); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); return { status: 'saved' }; } };
+  const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return (u8) => { let c = 0xffffffff; for (let i = 0; i < u8.length; i++) c = t[(c ^ u8[i]) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; }; })();
+  function zip(files) { // stored (no compression) zip
+    const enc = new TextEncoder(), parts = [], central = []; let off = 0;
+    for (const f of files) {
+      const name = enc.encode(f.name), data = f.data instanceof Uint8Array ? f.data : enc.encode(f.data), crc = CRC(data);
+      const h = new DataView(new ArrayBuffer(30)); h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint32(14, crc, true); h.setUint32(18, data.length, true); h.setUint32(22, data.length, true); h.setUint16(26, name.length, true);
+      parts.push(new Uint8Array(h.buffer), name, data);
+      const c = new DataView(new ArrayBuffer(46)); c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint32(16, crc, true); c.setUint32(20, data.length, true); c.setUint32(24, data.length, true); c.setUint16(28, name.length, true); c.setUint32(42, off, true);
+      central.push(new Uint8Array(c.buffer), name); off += 30 + name.length + data.length;
+    }
+    const csize = central.reduce((s, p) => s + p.length, 0), e = new DataView(new ArrayBuffer(22));
+    e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, csize, true); e.setUint32(16, off, true);
+    return new Blob([...parts, ...central, new Uint8Array(e.buffer)], { type: 'application/zip' });
+  }
+  async function offer(filename, data) {
+    if (!downloads) { say('שמירה לא זמינה בתצוגה הזו.'); return; }
+    try { await downloads.save({ filename, data }); say('נשמר: ' + filename); }
+    catch (e) { say(e?.code === 'declined' ? 'השמירה בוטלה.' : e?.code === 'rate_limited' ? 'חלון שמירה כבר פתוח.' : 'לא הצלחתי לשמור את הקובץ.'); }
+  }
+  document.getElementById('savePng').onclick = () => stage.canvas.toBlob((b) => b && offer(`T3-D3_${currentView}.png`, b), 'image/png');
+  document.getElementById('saveObj').onclick = async () => {
+    say('מכין OBJ…');
+    const { OBJExporter } = await import('three/addons/exporters/OBJExporter.js');
+    const mats = stage._nameParts(), base = stage._basename;
+    const obj = 'mtllib ' + base + '.mtl\n' + new OBJExporter().parse(stage._object);
+    let mtl = '# T3-D3 apartment 138 — materials\n';
+    for (const m of mats) { const c = m.color || { r: 0.8, g: 0.8, b: 0.8 }; mtl += `newmtl ${m.name}\nKd ${c.r.toFixed(4)} ${c.g.toFixed(4)} ${c.b.toFixed(4)}\nKs 0.2 0.2 0.2\nNs ${Math.round((1 - (m.roughness ?? 0.5)) * 200)}\nd ${(m.opacity ?? 1).toFixed(4)}\n\n`; }
+    offer(base + '_obj.zip', zip([{ name: base + '.obj', data: obj }, { name: base + '.mtl', data: mtl }]));
+  };
+  document.getElementById('saveGlb').onclick = async () => {
+    say('מכין GLB…');
+    const { GLTFExporter } = await import('three/addons/exporters/GLTFExporter.js');
+    stage._nameParts();
+    const buf = await new GLTFExporter().parseAsync(stage._object, { binary: true });
+    offer(stage._basename + '_glb.zip', zip([{ name: stage._basename + '.glb', data: new Uint8Array(buf) }]));
+  };
+
+  document.querySelectorAll('#views button, #panetabs button').forEach((b) => (b.onclick = () => show(b.dataset.view)));
+  // ---- device adaptation: touch walking pad, hints, manual override, re-detect on rotate/resize ----
+  document.querySelectorAll('#pad button').forEach((b) => {
+    const k = b.dataset.k, fire = (type) => window.dispatchEvent(new KeyboardEvent(type, { key: k }));
+    const down = (e) => { e.preventDefault(); b.classList.add('on'); fire('keydown'); b.setPointerCapture?.(e.pointerId); };
+    const up = () => { if (!b.classList.contains('on')) return; b.classList.remove('on'); fire('keyup'); };
+    b.addEventListener('pointerdown', down); b.addEventListener('pointerup', up); b.addEventListener('pointercancel', up); b.addEventListener('lostpointercapture', up);
+    b.addEventListener('contextmenu', (e) => e.preventDefault());
+  });
+  document.getElementById('walkExit').onclick = () => show('cutaway');
+  const hint = document.getElementById('keyhint');
+  const DEV_NAMES = { desktop: 'מחשב', tablet: 'טאבלט', mobile: 'נייד' };
+  function applyDevice(reframe) {
+    const r = document.documentElement;
+    hint.innerHTML = r.dataset.touch === '1' ? '<b>גררו באצבע</b> להסתכל סביב · <b>החצים בכרטיס</b> להליכה ולפנייה · <b>הקשה על הרצפה</b> כדי ללכת לשם · הקשה במפה כדי לקפוץ' : '<b>גרירה</b> להסתכל סביב · <b>W A S D</b> או החצים להליכה · <b>Shift</b> מהר יותר · <b>קליק על הרצפה</b> כדי ללכת לשם · קליק במפה כדי לקפוץ';
+    document.getElementById('minimap').setAttribute('aria-label', r.dataset.touch === '1' ? 'מפת הדירה, הקשה כדי לעבור לשם' : 'מפת הדירה, קליק כדי לעבור לשם');
+    document.getElementById('devAuto').textContent = ': ' + DEV_NAMES[r.dataset.device] + (r.dataset.device === r.dataset.deviceAuto ? '' : ' (נבחר ידנית)');
+    let o = 'auto'; try { o = localStorage.getItem('t3d3_device') || 'auto'; } catch {}
+    pickSeg(document.getElementById('devSeg'), o);
+    stageNote(); pipe.setAO(!isMobile());
+    if (reframe && currentView !== 'walk' && currentView !== 'balconyview') show(currentView);
+  }
+  document.querySelectorAll('#devSeg button').forEach((b) => (b.onclick = () => {
+    try { b.dataset.v === 'auto' ? localStorage.removeItem('t3d3_device') : localStorage.setItem('t3d3_device', b.dataset.v); } catch {}
+    const before = dev(); window.__detectDevice(); applyDevice(before !== dev());
+  }));
+  let rzT = 0;
+  addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(() => { const before = dev(); window.__detectDevice(); applyDevice(before !== dev()); }, 250); });
+  applyDevice(false);
+  new MutationObserver(syncFrameTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  document.getElementById('hereView').onclick = () => show('balconyview');
+  setFloor(floor);
+  setLevel('-1');
+  const h = location.hash.slice(1);
+  show(h in VIEWS ? h : 'cutaway');
+  render();
+</script>
+
+</body>
+</html>
